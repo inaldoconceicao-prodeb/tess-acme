@@ -1,0 +1,15 @@
+# Saída do gerador de CSR
+csr-output/
+
+# Chaves privadas — NUNCA versionar
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Configs temporárias
+*.cnf
+
+# OS
+.DS_Store
+Thumbs.db
