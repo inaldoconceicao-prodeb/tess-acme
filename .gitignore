@@ -10,6 +10,9 @@ csr-output/
 # Configs temporárias
 *.cnf
 
+# Variáveis de configuração locais — contém dados organizacionais
+.vars
+
 # OS
 .DS_Store
 Thumbs.db
