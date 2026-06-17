@@ -1,0 +1,26 @@
+# =============================================================================
+# .vars.example — Template de configuração do generate-csr.sh
+#
+# Copie este arquivo para .vars e ajuste os valores conforme sua organização:
+#   cp .vars.example .vars
+#
+# ATENÇÃO: O arquivo .vars está no .gitignore e NÃO deve ser versionado.
+# =============================================================================
+
+# Tamanho da chave RSA (recomendado: 2048 ou 4096)
+KEY_BITS=2048
+
+# Código do país (padrão ISO 3166-1 alpha-2)
+COUNTRY="BR"
+
+# Estado (nome completo)
+STATE="Bahia"
+
+# Cidade
+CITY="Salvador"
+
+# Razão social da organização (conforme registro na CA)
+ORGANIZATION="Minha Empresa Ltda"
+
+# Unidade organizacional
+ORG_UNIT="TI"
