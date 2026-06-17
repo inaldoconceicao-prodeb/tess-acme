@@ -2,14 +2,46 @@
 # =============================================================================
 # generate-csr.sh
 # Gera um CSR com SAN para um FQDN válido no Brasil (suporta Wildcard).
-# Uso: ./generate-csr.sh "meusite.com.br" ou ./generate-csr.sh "*.meusite.com.br"
+# Uso: ./scripts/generate-csr.sh "meusite.com.br"
+#      ./scripts/generate-csr.sh "*.meusite.com.br"
 # IMPORTANTE: Sempre use aspas ao passar um wildcard para evitar expansão do shell.
 # =============================================================================
 
 set -euo pipefail
 
 # -----------------------------------------------------------------------------
-# Constantes — ajuste conforme sua organização
+# Carrega variáveis externas (.vars)
+# -----------------------------------------------------------------------------
+VARS_FILE="$(dirname "$0")/../.vars"
+
+if [[ ! -f "$VARS_FILE" ]]; then
+  echo "[ERROR] Arquivo .vars não encontrado em: $VARS_FILE" >&2
+  echo "[ERROR] Copie o arquivo .vars.example para .vars e ajuste os valores." >&2
+  exit 1
+fi
+
+# shellcheck disable=SC1090
+source "$VARS_FILE"
+
+# Valida variáveis obrigatórias
+required_vars=(
+  KEY_BITS
+  COUNTRY
+  STATE
+  CITY
+  ORGANIZATION
+  ORG_UNIT
+)
+
+for var in "${required_vars[@]}"; do
+  if [[ -z "${!var:-}" ]]; then
+    echo "[ERROR] Variável obrigatória '$var' não definida no .vars" >&2
+    exit 1
+  fi
+done
+
+# -----------------------------------------------------------------------------
+# Constantes internas
 # -----------------------------------------------------------------------------
 readonly RED='\033[0;31m'
 readonly GREEN='\033[0;32m'
@@ -17,12 +49,6 @@ readonly YELLOW='\033[1;33m'
 readonly NC='\033[0m'
 
 readonly OUTPUT_DIR="./csr-output"
-readonly KEY_BITS=2048
-readonly COUNTRY="BR"
-readonly STATE="Bahia"
-readonly CITY="Salvador"
-readonly ORGANIZATION="Minha Empresa Ltda"
-readonly ORG_UNIT="TI"
 
 # SLDs oficiais registrados no Brasil (Registro.br)
 readonly BR_SLDS=(
